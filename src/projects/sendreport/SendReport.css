@@ -1,0 +1,242 @@
+/* =========================
+   SendReport.css (refactor)
+   ========================= */
+
+/* ===== Base ===== */
+body { background:#f5f5f5; font-family: Arial, sans-serif; }
+h3, h4 { font-family: Arial, sans-serif; }
+h3 { color:#007bff; margin-bottom:20px; }
+h4 { color:#6c757d; margin-bottom:15px; }
+
+.container{
+  margin-top:30px; padding:20px; background:#fff;
+  border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+button{ font-weight:700; padding:10px 20px; transition:background-color .3s, transform .3s; }
+button:hover{ transform:scale(1.05); }
+
+/* ===== Report header / actions / totals ===== */
+.report-textarea{
+  background:#fff; border:2px solid #0056b3; border-radius:8px;
+  color:#333; font-size:16px; padding:15px; width:100%; min-height:220px;
+}
+.report-toolbar{ display:flex; gap:12px; flex-wrap:wrap; margin:10px 0 20px; }
+.total-cash{ font-size:1.5rem; font-weight:700; color:#004085; margin-bottom:15px; }
+.fill-up{ color:#333; font-weight:700; margin-bottom:10px; }
+.clear-button{
+  background:#6c757d; color:#fff; border:none; padding:8px 20px; border-radius:5px;
+}
+.clear-button:hover{ background:#5a6268; }
+
+/* ===== Money Sales form ===== */
+.money-sales-form .form-row{ margin-bottom:15px; }
+.money-sales-form .label{ font-weight:700; width:150px; text-align:right; }
+.money-sales-form .input{
+  width:100%; max-width:300px; padding:8px; border:1px solid #ced4da; border-radius:5px;
+}
+.money-sales-form .input:focus{ border-color:#0056b3; box-shadow:0 0 5px rgba(0,86,179,.5); }
+
+/* Right-side per-row totals */
+.money-label, .money-label-cell{ max-width:120px; white-space:nowrap; }
+.money-label{
+  overflow:hidden; text-overflow:ellipsis; display:block;
+}
+.money-label-cell{
+  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-gutter:stable;
+  border-bottom:1px dashed #ccc;
+}
+
+/* Inline mineral calc */
+.inline-calc{ display:flex; align-items:center; gap:8px; }
+.calc-pill{
+  white-space:nowrap; padding:6px 10px; border:1px dashed #9aa0a6; border-radius:6px;
+  font-size:.9rem; background:#fff;
+}
+
+/* Expandable textareas (Pullouts / Accounts / Workers / Expenses) */
+.expandable-textarea{ resize:vertical; overflow:hidden; min-height:72px; line-height:1.25; }
+
+/* Numeric stepper */
+.stepper{ display:flex; align-items:center; gap:6px; max-width:280px; }
+.step-btn{ width:36px; height:36px; line-height:1; font-weight:700; border:1px solid #d0d0d0; }
+.money-input{ text-align:center; }
+
+/* Expenses label */
+.expenses-wrap .exp-label{ margin:6px 0; font-weight:600; }
+
+/* ===== Floating bubbles (Money & POS) ===== */
+.floating-total-cash,
+.floating-pos-total{
+  position:fixed;
+  /* fallback, then safe-area */
+  right:12px; right:max(12px, env(safe-area-inset-right));
+  bottom:12px; bottom:max(12px, env(safe-area-inset-bottom));
+  z-index:2147483647;
+  display:inline-flex; align-items:baseline; gap:6px;
+  padding:10px 14px; border-radius:12px; color:#fff; font-weight:700;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  pointer-events:none; transform:translateZ(0); will-change:transform;
+}
+.floating-total-cash{ background:#0056b3; }
+.floating-pos-total{ background:#198754; }
+
+.floating-total-label{ opacity:.9; font-size:14px; }
+.floating-total-amount{ font-size:18px; letter-spacing:.3px; }
+@media (max-width:480px){
+  .floating-total-cash, .floating-pos-total{ padding:8px 12px; border-radius:10px; }
+  .floating-total-amount{ font-size:16px; }
+}
+
+/* ===== Friendly, single-row tabs (react-bootstrap <Tabs class="custom-tabs">) ===== */
+.custom-tabs.nav-tabs{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+  gap:8px; border-bottom:none; margin-bottom:12px;
+}
+.custom-tabs.nav-tabs .nav-item{ width:100%; margin-bottom:0 !important; }
+.custom-tabs.nav-tabs .nav-link{
+  width:100%; display:block; text-align:center; padding:12px 10px;
+  border:2px solid #0056b3; border-radius:12px; background:#fff; color:#0056b3;
+  font-weight:800; line-height:1.1; white-space:normal; min-width:0;
+  transition:background-color .3s, color .3s, border-color .3s;
+}
+.custom-tabs.nav-tabs .nav-link:hover,
+.custom-tabs.nav-tabs .nav-link:focus{ background:#e8efff; color:#003b80; border-color:#003b80; outline:none; }
+.custom-tabs.nav-tabs .nav-link.active,
+.custom-tabs.nav-tabs .nav-link.active:focus,
+.custom-tabs.nav-tabs .nav-link.active:hover{
+  background:#0056b3; color:#fff; border-color:#0056b3;
+  box-shadow:0 2px 10px rgba(0,86,179,.25);
+}
+@media (max-width:420px){
+  .custom-tabs.nav-tabs .nav-link{ padding:10px 8px; font-size:14px; border-radius:10px; }
+}
+
+/* ===== POS ===== */
+.pos-wrap {
+  min-height: 100vh;
+}
+@supports (height: 100dvh) {
+  .pos-wrap { min-height: 100dvh; } /* accounts for mobile browser chrome */
+}
+
+.pos-search {
+  position: sticky;
+  top: 0;
+  z-index: 30;          /* higher to avoid overlap quirks */
+  background: #fff;
+  padding: 8px 0 10px;
+}
+
+.pos-search-row{ display:flex; gap:8px; align-items:center; }
+.pos-search-row .form-control{ flex:1; }
+
+.pos-list{
+  margin-top:4px; border:1px solid #eee; border-radius:8px; overflow:hidden;
+}
+.pos-item{
+  display:grid; grid-template-columns:1fr auto auto; gap:10px;
+  align-items:center; padding:10px 12px; border-bottom:1px solid #eee; background:#fff;
+}
+.pos-item:last-child{ border-bottom:0; }
+
+.pos-meta .pos-name{ font-weight:700; line-height:1.2; }
+.pos-meta .pos-price{ color:#6c757d; font-size:.9rem; }
+
+.pos-amount{ min-width:110px; text-align:right; }
+
+.pos-summary-textarea{
+  resize:none; overflow:auto; max-height:160px; -webkit-overflow-scrolling:touch; line-height:1.25;
+}
+
+/* Quantity input: keep 2–3 digits visible */
+.pos-item .money-input{
+  width:90px; max-width:100%; text-align:center;
+  font-variant-numeric:tabular-nums; font-size:16px; /* avoid iOS zoom */
+}
+
+/* Small phones: reflow row so numbers never get squished */
+@media (max-width:420px){
+  .pos-item{
+    grid-template-columns:1fr auto;
+    grid-template-areas: "meta amount" "stepper stepper";
+    gap:8px;
+  }
+  .pos-item .pos-meta{ grid-area:meta; }
+  .pos-item .pos-amount{ grid-area:amount; text-align:right; }
+  .pos-item .stepper{ grid-area:stepper; justify-self:start; }
+  .pos-item .money-input{ width:96px; }
+  .pos-item .step-btn{ width:34px; height:34px; }
+}
+
+/* POS group headings for "All" view */
+.pos-group-title{
+  padding: 8px 12px;
+  font-weight: 700;
+  color: #0056b3;
+  background: #f3f8ff;
+  border-top: 1px solid #e8eef7;
+}
+
+/* ===== Overflowing tab strip with arrows ===== */
+.tabstrip-shell{
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.tabstrip{
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  /* keep content clear of the arrows */
+  padding: 0 40px;
+}
+
+/* hide scrollbar (keeps swipe-scrolling) */
+.tabstrip::-webkit-scrollbar{ display:none; }
+.tabstrip{ scrollbar-width: none; }
+
+.tab-btn{
+  white-space: nowrap;
+  padding: 12px 14px;
+  border: 2px solid #0056b3;
+  border-radius: 12px;
+  background: #fff;
+  color: #0056b3;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.tab-btn:focus { outline: none; }
+.tab-btn:hover{ background:#e8efff; color:#003b80; border-color:#003b80; }
+.tab-btn.active{ background:#0056b3; color:#fff; border-color:#0056b3;
+  box-shadow: 0 2px 10px rgba(0,86,179,.25);
+}
+
+.tab-arrow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  border-radius: 9999px;
+  border: 1px solid #0056b3;
+  background: #fff;
+  color: #0056b3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  z-index: 5;
+}
+.tab-arrow.left{ left: 4px; }
+.tab-arrow.right{ right: 4px; }
+.tab-arrow:disabled{
+  opacity: .35;
+  border-color: #bbb; color:#bbb; background:#f8f9fa;
+}
+
+

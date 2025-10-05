@@ -1,7 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 
 const MoneySales = ({ formData, handleInputChange, onClearMoney }) => {
+  // ephemeral "+1000 / -50" pop bubbles
+  const [pops, setPops] = useState([]); // [{id,name,sign,value}]
+
+  const spawnPop = (name, sign, value) => {
+    const id = `${name}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    setPops((prev) => [...prev, { id, name, sign, value }]);
+    setTimeout(() => {
+      setPops((prev) => prev.filter((p) => p.id !== id));
+    }, 950); // ~animation duration
+  };
+
   // step helper: +/- 1 with floor at 0
   const step = (name, delta) => {
     const cur = Number(formData[name]) || 0;
@@ -10,20 +21,43 @@ const MoneySales = ({ formData, handleInputChange, onClearMoney }) => {
   };
 
   const renderMoneyRow = (labelText, name, denomination) => {
-    const qty = Number(formData[name]) || 0;
+    const qty   = Number(formData[name]) || 0;
     const total = denomination * qty;
+
+    // bubbles for just this row
+    const rowPops = pops.filter((p) => p.name === name);
 
     return (
       <tr key={name}>
-        <td>
-          <Form.Label>{labelText}</Form.Label>
+        {/* LABEL cell = bubble anchor (left side) */}
+        <td className="row-label-anchor">
+          <Form.Label className="money-label-text">{labelText}</Form.Label>
+
+          {/* animated bubbles beside the label */}
+          {rowPops.map((p) => (
+            <span
+              key={p.id}
+              className={`bill-pop label-pop top-pop ${p.sign === '+' ? 'plus' : 'minus'}`}
+              aria-hidden="true"
+            >
+              {p.sign}{p.value}
+            </span>
+          ))}
+
         </td>
+
+        {/* stepper + input (unchanged) */}
         <td>
           <div className="stepper">
             <Button
               variant="light"
               className="step-btn"
-              onClick={() => step(name, -1)}
+              onClick={() => {
+                if (qty > 0) {
+                  step(name, -1);
+                  spawnPop(name, '-', denomination);  // red bubble
+                }
+              }}
               disabled={qty <= 0}
               aria-label={`decrement ${labelText}`}
             >
@@ -40,14 +74,17 @@ const MoneySales = ({ formData, handleInputChange, onClearMoney }) => {
               placeholder={''}
               value={formData[name]}
               onChange={handleInputChange}
-              onWheel={(e) => e.currentTarget.blur()} // avoid accidental scroll changes on desktop
+              onWheel={(e) => e.currentTarget.blur()}
               className="money-input"
             />
 
             <Button
               variant="light"
               className="step-btn"
-              onClick={() => step(name, +1)}
+              onClick={() => {
+                step(name, +1);
+                spawnPop(name, '+', denomination);    // green bubble
+              }}
               aria-label={`increment ${labelText}`}
             >
               +
@@ -55,10 +92,15 @@ const MoneySales = ({ formData, handleInputChange, onClearMoney }) => {
           </div>
         </td>
 
-        <td className="money-label-cell">{`${denomination} x ${qty} = ${total}`}</td>
+        {/* amount cell (no bubbles here now) */}
+        <td className="money-label-cell">
+          {`${denomination} x ${qty} = ${total}`}
+        </td>
       </tr>
     );
   };
+
+
 
   return (
     <>

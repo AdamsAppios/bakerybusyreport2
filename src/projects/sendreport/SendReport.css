@@ -239,4 +239,75 @@ button:hover{ transform:scale(1.05); }
   border-color: #bbb; color:#bbb; background:#f8f9fa;
 }
 
+/* --- Money stepper "pop" animation --------------------------------------- */
 
+/* 1) Anchor cell for the bubble (left column). We reserve a small
+   gutter so the bubble never sits on top of the label or inputs. */
+.row-label-anchor{
+  position: relative;
+  overflow: visible;        /* don't clip the bubble */
+  padding-left: 52px;       /* <<< reserve a left gutter for the pop */
+}
+
+/* 2) Bigger, high-contrast bubble for Android visibility */
+.bill-pop{
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  font-weight: 800;
+  font-size: 44px;          /* a bit larger so it's readable in portrait */
+  line-height: 1;
+  text-shadow: 0 2px 0 rgba(0,0,0,.08);
+  opacity: 0;
+  animation: popRise .9s ease-out forwards;
+}
+
+/* 3) Place the bubble INSIDE the left gutter of the label cell,
+   very close to the screen’s left edge, so it never covers inputs. */
+.bill-pop.label-pop{
+  left: clamp(6px, 2vw, 14px);  /* near the left edge, but always visible */
+  top: 50%;
+  transform: translateY(-50%) scale(.95);
+}
+
+/* Colors */
+.bill-pop.plus  { color: #16a34a; }  /* green  */
+.bill-pop.minus { color: #dc2626; }  /* red    */
+
+@keyframes popRise{
+  0%   { opacity: 0; transform: translateY(-50%) scale(.88); }
+  25%  { opacity: 1; transform: translateY(-58%) scale(1.05); }
+  100% { opacity: 0; transform: translateY(-90%) scale(1.00); }
+}
+
+/* Fine-tune for small phones and landscape so it never clips */
+@media (max-width: 480px){
+  .bill-pop{ font-size: 38px; }             /* keep fully in view in portrait */
+  .bill-pop.label-pop{ left: clamp(6px, 2vw, 12px); }
+}
+@media (orientation: landscape){
+  .bill-pop.label-pop{ left: clamp(6px, 1.5vw, 16px); }
+}
+
+/* Place the bubble just ABOVE the row so the label stays visible */
+.bill-pop.top-pop{
+  top: 0;                      /* anchor at the top edge of the label cell */
+  left: clamp(6px, 2vw, 14px); /* keep near the left edge, always visible */
+  transform: translateY(-100%) scale(.95);
+  animation-name: popRiseTop;  /* use a slightly higher rise */
+}
+
+/* Taller rise so it floats above the row, not across it */
+@keyframes popRiseTop{
+  0%   { opacity: 0; transform: translateY(-90%)  scale(.88); }
+  25%  { opacity: 1; transform: translateY(-115%) scale(1.08); }
+  100% { opacity: 0; transform: translateY(-165%) scale(1.02); }
+}
+
+/* Small phones and landscape fine-tuning */
+@media (max-width: 480px){
+  .bill-pop.top-pop{ left: clamp(6px, 2vw, 12px); }
+}
+@media (orientation: landscape){
+  .bill-pop.top-pop{ left: clamp(6px, 1.5vw, 16px); }
+}

@@ -311,3 +311,91 @@ button:hover{ transform:scale(1.05); }
 @media (orientation: landscape){
   .bill-pop.top-pop{ left: clamp(6px, 1.5vw, 16px); }
 }
+
+/* ===== Calculator ===== */
+.calc-wrap{
+  position: relative;
+  min-height: 60vh;
+}
+
+/* --- Calculator display (freeze height) --- */
+.calc-display{
+  position: sticky; top: 0; z-index: 15;
+  background:#fff; padding:12px; border:1px solid #e6eefb;
+  border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,.04);
+  margin-bottom:12px;
+
+  /* reserve fixed heights so nothing jumps */
+  --screen-h: 56px;   /* main textarea height (1–2 lines) */
+  --preview-h: 24px;  /* single preview line */
+}
+
+.calc-screen{
+  width:100%;
+  height:var(--screen-h);
+  min-height:var(--screen-h);
+  max-height:var(--screen-h);
+  border:none; resize:none; background:transparent;
+  font-size:28px; font-weight:700; line-height:1.25;
+  font-variant-numeric:tabular-nums; outline:none;
+  box-sizing:border-box;
+}
+
+.calc-preview{
+  margin-top:6px;
+  height:var(--preview-h);
+  line-height:var(--preview-h);     /* keep exactly one line */
+  color:#6b7280; font-size:16px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+
+.calc-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.calc-row{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.calc-row:last-child{
+  grid-template-columns: 1fr;       /* "=" row full width */
+}
+
+.calc-btn{
+  height: 56px;
+  font-size: 20px;
+  font-weight: 800;
+  border-radius: 12px;
+  border: 1px solid #d7e1f7;
+  background: #fff;
+  color: #0b4fb3;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+.calc-btn:active{ transform: scale(.98); }
+
+.calc-btn.op{
+  background: #eef5ff;
+  color: #0b4fb3;
+}
+
+.calc-btn.primary{
+  background: #0b4fb3;
+  color: #fff;
+  border-color: #0b4fb3;
+}
+
+.calc-btn.danger{
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fbcaca;
+}
+
+@media (min-width: 480px){
+  .calc-btn{ height: 60px; font-size: 22px; }
+  .calc-screen{ min-height: 28px; } 
+}

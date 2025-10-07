@@ -6,6 +6,7 @@ import MoneySales from './sendreportfiles/MoneySales';
 import OtherSales from './sendreportfiles/OtherSales';
 import CoffeeSales from './sendreportfiles/CoffeeSales';
 import Copytoclipboard from './helpers/Copytoclipboard';
+import CalcTab from './sendreportfiles/CalcTab';
 import POS from './sendreportfiles/POS';
 
 // Helper function to get the current date in Manila (Philippine) time as "YYYY-MM-DD"
@@ -337,6 +338,7 @@ const SendReport = () => {
     { key: 'moneySales', label: 'Money Sales' },
     { key: 'otherSales', label: 'Other Sales' },
     { key: 'coffeeSales', label: 'Coffee Sales' },
+    { key: 'calc',        label: 'Calc' },       // 👈 new tab here
     { key: 'pos', label: 'POS' }
   ];
 
@@ -412,7 +414,9 @@ const SendReport = () => {
         handleInputChange={handleInputChange}
       />
     </div>
-
+    <div style={paneStyle('calc')} aria-hidden={tabValue !== 'calc'}>
+      <CalcTab />
+    </div>
     <div style={paneStyle('pos')} aria-hidden={tabValue !== 'pos'}>
       <POS />
     </div>

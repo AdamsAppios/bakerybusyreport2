@@ -399,3 +399,35 @@ button:hover{ transform:scale(1.05); }
   .calc-btn{ height: 60px; font-size: 22px; }
   .calc-screen{ min-height: 28px; } 
 }
+
+/* --- Copy Report toast (Android friendly) --- */
+.copy-toast{
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 10px) scale(.98);
+  background: #0d6efd; /* primary blue */
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  padding: 10px 14px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity .22s ease, transform .22s ease;
+  pointer-events: none; /* never block taps */
+}
+.copy-toast.show{
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+.copy-toast.err{
+  background: #dc3545; /* red for error */
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .copy-toast{ transition: none; }
+}

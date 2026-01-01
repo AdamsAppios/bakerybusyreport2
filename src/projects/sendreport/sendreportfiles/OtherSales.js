@@ -106,6 +106,32 @@ const OtherSales = ({ formData, handleInputChange }) => {
               <td><Form.Label>Plastic Tiny</Form.Label></td>
               <td><Form.Control type="text" name="plasticTiny" placeholder="stocks plastic tiny" value={formData.plasticTiny} onChange={handleInputChange} /></td>
             </tr>
+            {/* Plastic Medium */}
+            <tr>
+              <td><Form.Label>Plastic Medium</Form.Label></td>
+              <td>
+                <Form.Control
+                  type="text"
+                  name="plasticMedium"
+                  placeholder="stocks plastic medium"
+                  value={formData.plasticMedium}
+                  onChange={handleInputChange}
+                />
+              </td>
+            </tr>
+            {/* Plastic Large */}
+            <tr>
+              <td><Form.Label>Plastic Large</Form.Label></td>
+              <td>
+                <Form.Control
+                  type="text"
+                  name="plasticLarge"
+                  placeholder="stocks plastic large"
+                  value={formData.plasticLarge}
+                  onChange={handleInputChange}
+                />
+              </td>
+            </tr>
             <tr>
               <td><Form.Label>Pullouts</Form.Label></td>
               <Form.Control as="textarea" name="pullouts" rows={3} placeholder="Mga Pullout"

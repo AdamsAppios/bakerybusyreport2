@@ -66,6 +66,8 @@ const SendReport = () => {
     plastic3: '',
     plastic6: '',
     plasticTiny: '',
+    plasticMedium: '',
+    plasticLarge: '',
     pullouts: '',
     accounts: '',
     workers: '',
@@ -250,6 +252,8 @@ const SendReport = () => {
       if (formData.plastic3) otherSalesReport += `Plastic_No3 = ${formData.plastic3}\n`;
       if (formData.plastic6) otherSalesReport += `Plastic_No6 = ${formData.plastic6}\n`;
       if (formData.plasticTiny) otherSalesReport += `Plastic Tiny = ${formData.plasticTiny}\n`;
+      if (formData.plasticMedium) otherSalesReport += `Plastic Medium = ${formData.plasticMedium}\n`;
+      if (formData.plasticLarge)  otherSalesReport +=`Plastic Large = ${formData.plasticLarge}\n`;
       if (formData.pullouts) otherSalesReport += `\nPullouts = \n${formData.pullouts}\n\n`;
       if (formData.accounts) otherSalesReport += `Accounts = \n${formData.accounts}\n\n`;
       if (formData.workers) otherSalesReport += `Workers = \n${formData.workers}\n`;
@@ -317,6 +321,8 @@ const SendReport = () => {
       plastic3: '',
       plastic6: '',
       plasticTiny: '',
+      plasticMedium: '',
+      plasticLarge: '',
       pullouts: '',
       accounts: '',
       workers: '',
